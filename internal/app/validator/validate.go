@@ -2,13 +2,15 @@ package validator
 
 import (
 	"fmt"
+	"reflect"
+	"strings"
+
 	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/translator"
 	ut "github.com/go-playground/universal-translator"
+	"github.com/go-playground/validator/v10"
 	enT "github.com/go-playground/validator/v10/translations/en"
 	ruT "github.com/go-playground/validator/v10/translations/ru"
 	log "github.com/sirupsen/logrus"
-	"reflect"
-	"strings"
 )
 
 // use a single instance of Validate, it caches struct info

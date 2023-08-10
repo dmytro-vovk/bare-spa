@@ -3,21 +3,21 @@ package boot
 import (
 	"context"
 	"encoding/json"
+	"github.com/natefinch/lumberjack"
 	"io"
 	"os"
 	"time"
 
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard"
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/middleware"
-	"github.com/rifflock/lfshook"
-	log "github.com/sirupsen/logrus"
-	"github.com/sirupsen/logrus/hooks/writer"
-
 	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard"
 	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver"
 	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/auth"
 	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/handlers/ws"
 	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/handlers/ws/client"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/middleware"
+	"github.com/rifflock/lfshook"
+	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus/hooks/writer"
 )
 
 type Boot struct {
