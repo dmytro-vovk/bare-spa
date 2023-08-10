@@ -1,10 +1,8 @@
 //go:build !linux
-// +build !linux
 
 package testtools
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -12,7 +10,7 @@ import (
 
 func LoadBytes(t *testing.T, name string) []byte {
 	path := filepath.Join("testdata", name) // relative path
-	bytes, err := ioutil.ReadFile(path)
+	bytes, err := os.ReadFile(path)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -34,7 +32,7 @@ func TempFile(t *testing.T, relativePath, goldenName string) func() {
 	}
 
 	golden := filepath.Join("testdata", goldenName)
-	data, err := ioutil.ReadFile(golden)
+	data, err := os.ReadFile(golden)
 	if err != nil {
 		t.Fatal(err)
 	}

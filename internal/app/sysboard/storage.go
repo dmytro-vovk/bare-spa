@@ -2,11 +2,11 @@ package sysboard
 
 import (
 	"encoding/json"
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/ifaces"
-	log "github.com/sirupsen/logrus"
-	"io/ioutil"
 	"os"
 	"strings"
+
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/ifaces"
+	log "github.com/sirupsen/logrus"
 )
 
 //func save(board Board) (err error) {
@@ -19,7 +19,7 @@ import (
 //}
 
 func load(s ifaces.Sysboard) ifaces.Sysboard {
-	src, err := ioutil.ReadFile(configFileName(s))
+	src, err := os.ReadFile(configFileName(s))
 	if err != nil {
 		log.Printf("Can't read config file %q, using default", s.Type())
 		return s
