@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/jsonrpc"
 	ut "github.com/go-playground/universal-translator"
+	validator "github.com/go-playground/validator/v10"
 	"github.com/pkg/errors"
 )
 
