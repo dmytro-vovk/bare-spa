@@ -1,11 +1,11 @@
 package ws
 
 import (
-	"github.com/Sergii-Kirichok/pr/internal/app/translator"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/translator"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 
-	"github.com/Sergii-Kirichok/pr/internal/webserver/handlers/ws/client"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/handlers/ws/client"
 	"github.com/gorilla/websocket"
 )
 

@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/Sergii-Kirichok/pr/internal/boot"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/boot"
 )
 
 func main() {

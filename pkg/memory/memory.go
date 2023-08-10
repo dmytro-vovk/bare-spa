@@ -3,7 +3,7 @@
 package memory
 
 import (
-	"github.com/Sergii-Kirichok/pr/pkg/binary"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/binary"
 	"os"
 	"sync"
 	"syscall"

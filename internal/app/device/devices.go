@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/Sergii-Kirichok/pr/internal/app/device/address"
-	"github.com/Sergii-Kirichok/pr/internal/app/device/module"
-	"github.com/Sergii-Kirichok/pr/internal/app/errors"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device/address"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device/module"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/errors"
 )
 
 type Devices struct {

@@ -1,13 +1,13 @@
 package ifaces
 
 import (
-	"github.com/Sergii-Kirichok/pr/internal/app/device"
-	"github.com/Sergii-Kirichok/pr/internal/app/device/address"
-	"github.com/Sergii-Kirichok/pr/internal/app/device/module"
-	"github.com/Sergii-Kirichok/pr/pkg/iface"
-	"github.com/Sergii-Kirichok/pr/pkg/iface/i2c"
-	"github.com/Sergii-Kirichok/pr/pkg/iface/spi"
-	"github.com/Sergii-Kirichok/pr/pkg/iface/uart"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device/address"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device/module"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/iface"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/iface/i2c"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/iface/spi"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/iface/uart"
 )
 
 type Sysboard interface {

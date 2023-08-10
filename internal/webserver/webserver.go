@@ -3,13 +3,13 @@ package webserver
 import (
 	"context"
 	"errors"
-	"github.com/Sergii-Kirichok/pr/internal/webserver/middleware"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/middleware"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"time"
 
-	"github.com/Sergii-Kirichok/pr/internal/webserver/handlers/home"
-	"github.com/Sergii-Kirichok/pr/internal/webserver/handlers/ws"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/handlers/home"
+	"github.com/Sergii-Kirichok/DTekSpeachParserr/internal/webserver/handlers/ws"
 )
 
 type Auth interface {

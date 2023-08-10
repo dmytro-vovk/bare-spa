@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/Sergii-Kirichok/pr/internal/app/alias"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/alias"
 )
 
 func (a *Application) AliasesList(req struct {

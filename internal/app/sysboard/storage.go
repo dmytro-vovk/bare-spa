@@ -2,7 +2,7 @@ package sysboard
 
 import (
 	"encoding/json"
-	"github.com/Sergii-Kirichok/pr/internal/app/ifaces"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/ifaces"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"os"

@@ -2,8 +2,8 @@ package client
 
 import (
 	"encoding/json"
-	"github.com/Sergii-Kirichok/pr/internal/app/errors"
-	validate "github.com/Sergii-Kirichok/pr/internal/app/validator"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/errors"
+	validate "github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/validator"
 	"reflect"
 )
 

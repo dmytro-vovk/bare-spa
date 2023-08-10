@@ -2,9 +2,9 @@ package app
 
 import (
 	"fmt"
-	"github.com/Sergii-Kirichok/pr/pkg/iface/i2c"
-	"github.com/Sergii-Kirichok/pr/pkg/iface/spi"
-	"github.com/Sergii-Kirichok/pr/pkg/iface/uart"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/iface/i2c"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/iface/spi"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/iface/uart"
 	log "github.com/sirupsen/logrus"
 	"time"
 )

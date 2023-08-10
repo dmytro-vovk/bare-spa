@@ -5,7 +5,7 @@ import (
 	"sort"
 	"testing"
 
-	fdb "github.com/Sergii-Kirichok/pr/internal/storage/file-db"
+	fdb "github.com/Sergii-Kirichok/DTekSpeachParser/internal/storage/file-db"
 	"github.com/stretchr/testify/assert"
 )
 

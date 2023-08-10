@@ -1,11 +1,11 @@
 package storage
 
 import (
-	"github.com/Sergii-Kirichok/pr/internal/app/types"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/types"
 	"os"
 	"strings"
 
-	fdb "github.com/Sergii-Kirichok/pr/internal/storage/file-db"
+	fdb "github.com/Sergii-Kirichok/DTekSpeachParser/internal/storage/file-db"
 )
 
 type Storage struct {

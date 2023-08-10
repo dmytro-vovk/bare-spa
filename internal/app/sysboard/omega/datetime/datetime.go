@@ -3,10 +3,10 @@
 package datetime
 
 import (
-	"github.com/Sergii-Kirichok/pr/internal/app/errors"
-	"github.com/Sergii-Kirichok/pr/internal/app/types"
-	"github.com/Sergii-Kirichok/pr/pkg/helpers/testtools/exec"
-	"github.com/Sergii-Kirichok/pr/pkg/uci"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/errors"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/types"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/helpers/testtools/exec"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/uci"
 	"time"
 )
 

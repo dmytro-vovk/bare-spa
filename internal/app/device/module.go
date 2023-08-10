@@ -3,7 +3,7 @@ package device
 import (
 	"fmt"
 
-	"github.com/Sergii-Kirichok/pr/internal/app/device/module"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device/module"
 )
 
 func (kind Type) Modules() map[module.Type]struct{} {

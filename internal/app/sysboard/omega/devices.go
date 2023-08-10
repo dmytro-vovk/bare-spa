@@ -3,9 +3,9 @@ package omega
 import (
 	"sort"
 
-	"github.com/Sergii-Kirichok/pr/internal/app/device"
-	"github.com/Sergii-Kirichok/pr/internal/app/device/address"
-	"github.com/Sergii-Kirichok/pr/internal/app/device/module"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device/address"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device/module"
 )
 
 func (s *Sysboard) SupportedDevicesTypes() []device.Type {

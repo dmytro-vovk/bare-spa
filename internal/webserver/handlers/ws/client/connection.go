@@ -2,8 +2,8 @@ package client
 
 import (
 	"encoding/json"
-	"github.com/Sergii-Kirichok/pr/internal/app/errors"
-	"github.com/Sergii-Kirichok/pr/pkg/jsonrpc"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/errors"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/jsonrpc"
 	ut "github.com/go-playground/universal-translator"
 	log "github.com/sirupsen/logrus"
 	"sync"

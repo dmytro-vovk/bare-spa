@@ -3,9 +3,9 @@
 package gpio
 
 import (
-	"github.com/Sergii-Kirichok/pr/internal/app/types"
-	"github.com/Sergii-Kirichok/pr/pkg/binary"
-	"github.com/Sergii-Kirichok/pr/pkg/memory"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/types"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/binary"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/memory"
 	log "github.com/sirupsen/logrus"
 )
 

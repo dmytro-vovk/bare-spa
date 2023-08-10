@@ -7,19 +7,17 @@ import (
 	"os"
 	"time"
 
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/middleware"
 	"github.com/rifflock/lfshook"
 	log "github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/writer"
-	"gopkg.in/natefinch/lumberjack.v2"
 
-	"github.com/Sergii-Kirichok/pr/internal/app/sysboard"
-	"github.com/Sergii-Kirichok/pr/internal/webserver/middleware"
-
-	"github.com/Sergii-Kirichok/pr/internal/app"
-	"github.com/Sergii-Kirichok/pr/internal/webserver"
-	"github.com/Sergii-Kirichok/pr/internal/webserver/auth"
-	"github.com/Sergii-Kirichok/pr/internal/webserver/handlers/ws"
-	"github.com/Sergii-Kirichok/pr/internal/webserver/handlers/ws/client"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/auth"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/handlers/ws"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/handlers/ws/client"
 )
 
 type Boot struct {

@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/Sergii-Kirichok/pr/internal/app/types"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/types"
 	log "github.com/sirupsen/logrus"
 	"time"
 )

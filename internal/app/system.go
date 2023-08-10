@@ -1,9 +1,9 @@
 package app
 
 import (
-	"github.com/Sergii-Kirichok/pr/internal/app/sysboard"
-	"github.com/Sergii-Kirichok/pr/pkg/helpers/testtools/exec"
-	"github.com/Sergii-Kirichok/pr/pkg/iface"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/helpers/testtools/exec"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/iface"
 	log "github.com/sirupsen/logrus"
 )
 

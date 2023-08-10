@@ -1,11 +1,11 @@
 package perimeth
 
 import (
-	"github.com/Sergii-Kirichok/pr/internal/app/device"
-	"github.com/Sergii-Kirichok/pr/internal/app/sysboard/omega"
-	"github.com/Sergii-Kirichok/pr/internal/app/sysboard/omega/gpio"
-	"github.com/Sergii-Kirichok/pr/internal/app/sysboard/omega/network"
-	"github.com/Sergii-Kirichok/pr/internal/app/types"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard/omega"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard/omega/gpio"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard/omega/network"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/types"
 	"github.com/pkg/errors"
 )
 

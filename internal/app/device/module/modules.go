@@ -3,7 +3,7 @@ package module
 import (
 	"sync"
 
-	"github.com/Sergii-Kirichok/pr/internal/app/errors"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/errors"
 )
 
 type Modules struct {

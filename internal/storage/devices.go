@@ -1,6 +1,6 @@
 package storage
 
-import "github.com/Sergii-Kirichok/pr/internal/app/types"
+import "github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/types"
 
 func (s *Storage) ListDevices() ([]*types.Device, error) {
 	return s.devicesDB.All().([]*types.Device), nil

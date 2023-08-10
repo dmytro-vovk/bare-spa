@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/Sergii-Kirichok/pr/internal/app/ifaces"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/ifaces"
 )
 
 type Application struct {

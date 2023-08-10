@@ -2,7 +2,7 @@
 
 package gpio
 
-import "github.com/Sergii-Kirichok/pr/internal/app/types"
+import "github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/types"
 
 var bits = map[byte]*struct {
 	types.DirectionBit

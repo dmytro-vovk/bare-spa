@@ -1,7 +1,7 @@
 package binary_test
 
 import (
-	"github.com/Sergii-Kirichok/pr/pkg/binary"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/binary"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

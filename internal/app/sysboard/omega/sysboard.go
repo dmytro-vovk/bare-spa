@@ -7,16 +7,16 @@ import (
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/Sergii-Kirichok/pr/internal/app/device"
-	"github.com/Sergii-Kirichok/pr/internal/app/device/address"
-	"github.com/Sergii-Kirichok/pr/internal/app/ifaces"
-	"github.com/Sergii-Kirichok/pr/internal/app/sysboard/omega/gpio"
-	"github.com/Sergii-Kirichok/pr/internal/app/sysboard/omega/network"
-	"github.com/Sergii-Kirichok/pr/internal/app/types"
-	"github.com/Sergii-Kirichok/pr/pkg/iface/i2c"
-	"github.com/Sergii-Kirichok/pr/pkg/iface/spi"
-	"github.com/Sergii-Kirichok/pr/pkg/iface/uart"
-	"github.com/Sergii-Kirichok/pr/pkg/therm"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device/address"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/ifaces"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard/omega/gpio"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard/omega/network"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/types"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/iface/i2c"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/iface/spi"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/iface/uart"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/therm"
 )
 
 var _ ifaces.Sysboard = (*Sysboard)(nil)

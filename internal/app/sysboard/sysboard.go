@@ -2,11 +2,11 @@ package sysboard
 
 import (
 	"fmt"
-	"github.com/Sergii-Kirichok/pr/internal/app/errors"
-	"github.com/Sergii-Kirichok/pr/internal/app/ifaces"
-	"github.com/Sergii-Kirichok/pr/internal/app/sysboard/minicom"
-	"github.com/Sergii-Kirichok/pr/internal/app/sysboard/omega"
-	"github.com/Sergii-Kirichok/pr/internal/app/sysboard/perimeth"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/errors"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/ifaces"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard/minicom"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard/omega"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard/perimeth"
 )
 
 const (

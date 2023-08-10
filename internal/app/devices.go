@@ -1,12 +1,12 @@
 package app
 
 import (
-	"github.com/Sergii-Kirichok/pr/internal/app/device"
-	"github.com/Sergii-Kirichok/pr/internal/app/device/address"
-	"github.com/Sergii-Kirichok/pr/internal/app/device/module"
-	"github.com/Sergii-Kirichok/pr/internal/app/ifaces"
-	"github.com/Sergii-Kirichok/pr/internal/app/sysboard"
-	"github.com/Sergii-Kirichok/pr/internal/app/types"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device/address"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/device/module"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/ifaces"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/sysboard"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/types"
 )
 
 func (a *Application) GetSysboard() (ifaces.Sysboard, error) {

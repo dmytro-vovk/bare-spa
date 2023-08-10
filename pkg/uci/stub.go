@@ -2,7 +2,7 @@
 
 package uci
 
-import "github.com/Sergii-Kirichok/pr/pkg/helpers/testtools/exec"
+import "github.com/Sergii-Kirichok/DTekSpeachParser/pkg/helpers/testtools/exec"
 
 var (
 	uci          = exec.Command("true").As("uci")

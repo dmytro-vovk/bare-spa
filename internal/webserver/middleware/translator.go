@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/Sergii-Kirichok/pr/internal/app/translator"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/translator"
 	ut "github.com/go-playground/universal-translator"
 	"net/http"
 	"strings"

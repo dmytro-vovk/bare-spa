@@ -2,9 +2,8 @@ package validator
 
 import (
 	"fmt"
-	"github.com/Sergii-Kirichok/pr/internal/app/translator"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/translator"
 	ut "github.com/go-playground/universal-translator"
-	"github.com/go-playground/validator/v10"
 	enT "github.com/go-playground/validator/v10/translations/en"
 	ruT "github.com/go-playground/validator/v10/translations/ru"
 	log "github.com/sirupsen/logrus"
