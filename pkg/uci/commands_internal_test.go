@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/Sergii-Kirichok/pr/pkg/helpers/testtools/exec"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/helpers/testtools/exec"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"path/filepath"

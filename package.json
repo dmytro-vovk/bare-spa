@@ -1,9 +1,9 @@
 {
-  "name": "pid-controller",
-  "version": "0.1.0",
-  "description": "PID Controller",
+  "name": "DTekSpeachParser",
+  "version": "0.0.1",
+  "description": "Conversations parser",
   "main": "index.js",
-  "repository": "https://github.com/Sergii-Kirichok/pr",
+  "repository": "https://github.com/Sergii-Kirichok/DTekSpeachParser",
   "author": "Simple Solutions",
   "license": "MIT",
   "scripts": {

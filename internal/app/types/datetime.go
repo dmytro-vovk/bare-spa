@@ -2,7 +2,7 @@ package types
 
 import (
 	"encoding/json"
-	"github.com/Sergii-Kirichok/pr/internal/app/errors"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/errors"
 	"time"
 )
 

@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/handlers/home"
-	"github.com/Sergii-Kirichok/DTekSpeachParserr/internal/webserver/handlers/ws"
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/handlers/ws"
 )
 
 type Auth interface {
