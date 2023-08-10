@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "target": "es2021",
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

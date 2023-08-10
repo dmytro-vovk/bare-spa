@@ -1,0 +1,26 @@
+{
+  "webserver": {
+    "listen": ":80"
+  },
+  "auth": {
+    "username": "admin",
+    "password": "admin123"
+  },
+  "system_board": {
+    "type": "Omega"
+  },
+  "logger": {
+    "level": "debug",
+    "timestamp_format": "2006-01-02 15:04:05",
+    "formatter": {
+      "package": true,
+      "file": true,
+      "base_name_only": true
+    },
+    "rotor": {
+      "filename": "logs/app.log",
+      "max_size": 1,
+      "max_backups": 2
+    }
+  }
+}

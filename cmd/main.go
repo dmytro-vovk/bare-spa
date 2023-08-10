@@ -1,0 +1,21 @@
+package main
+
+import (
+	"os"
+
+	"github.com/Sergii-Kirichok/pr/internal/boot"
+)
+
+func main() {
+	configFile := "config.json"
+	if cfg := os.Getenv("CONFIG"); cfg != "" {
+		configFile = cfg
+	}
+	c, shutdown := boot.New(configFile)
+	defer shutdown()
+
+	c.Logger()
+	if err := c.Webserver().Serve(); err != nil {
+		panic(err)
+	}
+}

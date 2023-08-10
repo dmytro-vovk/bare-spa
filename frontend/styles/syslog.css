@@ -1,0 +1,60 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table-last-underlined tr:last-child {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.text-end {
+    text-align: right !important;
+}
+
+table.table tr th, table.table tr td {
+    border-color: #e9e9e9;
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+table.table td span {
+    cursor: pointer;
+    font-weight: bold;
+    display: inline-block;
+    text-decoration: none;
+    outline: none !important;
+}
+
+.edit-icon {
+    color: #FFC107;
+}
+
+.delete-icon {
+    color: #F44336;
+}
+
+.action-icon + .action-icon {
+    margin-left: 10px;
+}
+
+#system-log {
+    background-color: black;
+    color: silver;
+    border-radius: .5em;
+}
+
+#system-log .error {
+    color: red;
+}
+
+#system-log .notice {
+    color: orange;
+}
+
+#system-log .meta {
+    color: gray;
+}
+
+#system-log .location {
+    color: cadetblue;
+}
