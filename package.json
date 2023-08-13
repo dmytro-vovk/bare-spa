@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Conversations parser",
   "main": "index.js",
-  "repository": "https://github.com/wgua-eu",
+  "repository": "https://github.com/Sergii-Kirichok/DTekSpeachParser",
   "author": "Dmytro Vovk",
   "license": "private",
   "scripts": {
