@@ -1,4 +1,12 @@
 /index.html.gz
-/index.js.gz
-/index.js.map.gz
+
+/admin.js.gz
+/admin.js.map.gz
+
+/guest.js.gz
+/guest.js.map.gz
+
+/user.js.gz
+/user.js.map.gz
+
 /css

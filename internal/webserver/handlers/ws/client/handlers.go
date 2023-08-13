@@ -1,144 +1,99 @@
 package client
 
 import (
+	"context"
 	"encoding/json"
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/errors"
-	validate "github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/validator"
 	"reflect"
 )
 
-// rpcHandler structure which describes how handler should look like,
-// it more than enough for any cases
 type rpcHandler struct {
-	fn  reflect.Value // handler function which would be called for the API endpoint
-	arg reflect.Type  // argument of this function, it represents as specific request structure, also can be <nil>
+	receiver   *reflect.Value
+	fn         reflect.Value // handler function which would be called for the API endpoint
+	arg        reflect.Type  // argument of this function, it represents as specific request structure, also can be <nil>
+	hasContext bool          // if the first argument is context.Context
 }
 
-/*
-parseHandler brings all functions to the same interface.
+var (
+	errIface     = reflect.TypeOf((*error)(nil)).Elem()
+	ctx          = context.Background()
+	contextIface = reflect.TypeOf(&ctx).Elem()
+)
 
-Handler function design will be looks like:
-[] - means that this argument is optional
+func parseMethod(fn reflect.Method, receiver *reflect.Value) *rpcHandler {
+	var (
+		arg        reflect.Type
+		hasContext bool
+	)
 
-	func handlerName([r requestStruct]) ([responseStruct,] error) {
-		// handler body...
+	if fn.Type.NumIn() > 3 {
+		panic("expected at most two handler argument")
+	} else if fn.Type.NumIn() == 3 {
+		if !fn.Type.In(1).Implements(contextIface) {
+			panic("context expected")
+		}
+		hasContext = true
+		arg = fn.Type.In(2)
+	} else if fn.Type.NumIn() == 2 {
+		if fn.Type.In(1).Implements(contextIface) {
+			hasContext = true
+		} else {
+			arg = fn.Type.In(1)
+		}
 	}
 
-Note: if *responseStruct is <nil>, we should get not <nil> error
-Note: if *responseStruct is not <nil>, we should get <nil> error
-Note: responseStruct can be reference type
-*/
-func parseHandler(fn interface{}) rpcHandler {
-	// check handler design as it described above
-	// if any check fails we panic
-	h := reflect.TypeOf(fn)
-	if h.Kind() != reflect.Func {
-		panic("function expected")
-	}
-
-	// check function arguments
-	if h.NumIn() > 1 {
-		panic("expected at most one handler argument")
-	}
-
-	// check function return values
-	errIface := reflect.TypeOf((*error)(nil)).Elem()
-	switch n := h.NumOut(); n {
+	switch n := fn.Type.NumOut(); n {
 	case 1, 2:
-		if !h.Out(n - 1).Implements(errIface) {
-			panic("at least one of return value must implement error")
+		if !fn.Type.Out(n - 1).Implements(errIface) {
+			panic("the last return value must implement error")
 		}
 	default:
 		panic("expected one or two return values")
 	}
 
-	// define request structure if we have it
-	var req reflect.Type
-	if n := h.NumIn(); n == 1 {
-		req = h.In(n - 1)
-	}
-
-	return rpcHandler{
-		fn:  reflect.ValueOf(fn),
-		arg: req,
+	return &rpcHandler{
+		receiver:   receiver,
+		fn:         fn.Func,
+		arg:        arg,
+		hasContext: hasContext,
 	}
 }
 
-/*
-call makes function call and returns handler's response to the client
+func (h *rpcHandler) call(ctx context.Context, params json.RawMessage) (json.RawMessage, error) {
+	var ret, args []reflect.Value
 
-Firstly it parses and initializes function parameters with which function would be called.
-Then makes function call with it and return handler's response.
-*/
-func (h *rpcHandler) call(params json.RawMessage) (json.RawMessage, error) {
-	var in []reflect.Value
-	if h.arg == nil {
-		if params != nil {
-			return nil, errors.InvalidParams.New("method hasn't any params")
-		}
-	} else {
-		instance := reflect.New(h.arg).Interface()
-		if err := json.Unmarshal(params, &instance); err != nil {
-			return nil, errors.ParsingErr.Wrap(err, "params unmarshalling")
-		}
-
-		if err := validate.Struct(instance); err != nil {
-			return nil, errors.ValidationErr.Use(err)
-		}
-
-		in = []reflect.Value{reflect.ValueOf(reflect.ValueOf(instance).Elem().Interface())} // dereferencing
+	if h.receiver != nil {
+		args = append(args, *h.receiver)
 	}
 
-	// parse return structure ([*responseStruct,] error)
-	switch ret, n := h.fn.Call(in), h.fn.Type().NumOut(); {
+	if h.hasContext {
+		args = append(args, reflect.ValueOf(reflect.ValueOf(&ctx).Elem().Interface()))
+	}
+
+	if h.arg != nil {
+		arg := reflect.New(h.arg).Interface()
+		if err := json.Unmarshal(params, &arg); err != nil {
+			return nil, err
+		}
+
+		args = append(args, reflect.ValueOf(reflect.ValueOf(arg).Elem().Interface()))
+	}
+
+	ret = h.fn.Call(args)
+
+	switch n := h.fn.Type().NumOut(); {
 	case n == 1:
-		if !ret[n-1].IsNil() {
-			return nil, ret[n-1].Interface().(error)
+		if ret[n-1].IsNil() {
+			return nil, nil
 		}
 
-		return nil, nil
+		return nil, ret[n-1].Interface().(error)
 	case n == 2:
-		if !ret[n-1].IsNil() {
-			return nil, ret[n-1].Interface().(error)
+		if ret[n-1].IsNil() {
+			return json.Marshal(ret[0].Interface())
 		}
 
-		res, err := json.Marshal(ret[0].Interface())
-		return res, errors.ParsingErr.Wrap(err, "result unmarshalling")
+		return nil, ret[n-1].Interface().(error)
 	default:
 		panic("expected 1 or 2 return values")
-	}
-}
-
-/*
-unwrap makes initializing with zero values for reference data structures.
-
-Note: it works only for structures, not for pointers to structures. [t]
-Note: it works only for structures zero values, not for pointers to zero value structures. [v]
-
-param: t must be reflect.Struct type for data structure to unwrap
-param: v must be reflect.New(typ Type).Elem() [typ - reflect.Struct]
-*/
-func unwrap(t reflect.Type, v reflect.Value) {
-	// filtering pointers to the structure at first nesting level, in this case unwrap has no effect.
-	if t.Kind() != reflect.Struct {
-		return
-	}
-
-	for n, count := 0, v.NumField(); n < count; n++ {
-		fieldType := t.Field(n)
-		fieldValue := v.Field(n)
-		switch fieldType.Type.Kind() {
-		case reflect.Map:
-			fieldValue.Set(reflect.MakeMap(fieldType.Type))
-		case reflect.Ptr:
-			// dereference ptrFieldValue, for be possible to unwrap pointer type field
-			ptrFieldValue := reflect.New(fieldType.Type.Elem())
-			unwrap(fieldType.Type.Elem(), ptrFieldValue.Elem())
-			fieldValue.Set(ptrFieldValue)
-		case reflect.Slice:
-			fieldValue.Set(reflect.MakeSlice(fieldType.Type, 0, 0))
-		case reflect.Struct:
-			unwrap(fieldType.Type, fieldValue)
-		}
 	}
 }

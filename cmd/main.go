@@ -1,21 +1,24 @@
 package main
 
 import (
+	"log"
 	"os"
 
 	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/boot"
 )
 
 func main() {
-	configFile := "config.json"
-	if cfg := os.Getenv("CONFIG"); cfg != "" {
-		configFile = cfg
+	configPath := "config.json"
+	if cfgPath := os.Getenv("CONFIG"); cfgPath != "" {
+		configPath = cfgPath
 	}
-	c, shutdown := boot.New(configFile)
-	defer shutdown()
 
-	c.Logger()
-	if err := c.Webserver().Serve(); err != nil {
-		panic(err)
+	c, err := boot.New(configPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := c.Webserver().Serve("Web server"); err != nil {
+		log.Fatal(err)
 	}
 }

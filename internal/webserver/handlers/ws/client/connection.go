@@ -1,45 +1,46 @@
 package client
 
 import (
+	"context"
 	"encoding/json"
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/errors"
-	"github.com/Sergii-Kirichok/DTekSpeachParser/pkg/jsonrpc"
-	ut "github.com/go-playground/universal-translator"
-	log "github.com/sirupsen/logrus"
+	"fmt"
+	"log"
+	"net/http"
 	"sync"
 
+	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/jsonrpc"
 	"github.com/gorilla/websocket"
 )
 
 type connection struct {
+	request       *http.Request
 	conn          *websocket.Conn
-	methods       map[string]rpcHandler
+	methods       map[string]*rpcHandler
 	subscriptions map[string]struct{}
-	sendC         chan interface{}
+	sendC         chan any
 	doneC         chan struct{}
-	trans         ut.Translator
 	mutex         sync.RWMutex
 }
 
-func NewConnection(conn *websocket.Conn, methods map[string]rpcHandler, trans ut.Translator) *connection {
+func NewConnection(request *http.Request, conn *websocket.Conn, methods map[string]*rpcHandler) *connection {
 	return &connection{
+		request:       request,
 		conn:          conn,
 		methods:       methods,
 		subscriptions: map[string]struct{}{},
-		sendC:         make(chan interface{}, 1),
+		sendC:         make(chan any, 10),
 		doneC:         make(chan struct{}),
-		trans:         trans,
 	}
 }
 
 func (c *connection) Run() {
-	go c.receiver()
+	go c.reader()
 	go c.sender()
 
 	<-c.doneC
 }
 
-func (c *connection) Notify(method string, params interface{}) {
+func (c *connection) Notify(method string, params any) {
 	c.mutex.RLock()
 	defer c.mutex.RUnlock()
 	if _, ok := c.subscriptions[method]; !ok {
@@ -58,20 +59,17 @@ func (c *connection) Notify(method string, params interface{}) {
 	})
 }
 
-// todo: we can use return statement for try again send the request
 func (c *connection) notify(notice jsonrpc.Request) bool {
 	select {
 	case c.sendC <- notice:
-		//log.Printf("[%s] Sending message:\n%s", c.conn.RemoteAddr(), notice) // too noisy
 		return true
 	default:
-		// try to change channel size
-		log.Printf("[%s] Couldn't send notification:\n%s", c.conn.RemoteAddr(), notice)
+		log.Printf("[%s] Couldn't send notification", c.conn.RemoteAddr())
 		return false
 	}
 }
 
-func (c *connection) receiver() {
+func (c *connection) reader() {
 	for {
 		msgType, msg, err := c.conn.ReadMessage()
 		if err != nil {
@@ -117,13 +115,13 @@ func (c *connection) handleTextMessage(msg []byte) {
 	if err := json.Unmarshal(msg, &req); err != nil {
 		log.Printf("[%s] Error decoding request: %s", c.conn.RemoteAddr(), err)
 		log.Printf("[%s] Request: %s", c.conn.RemoteAddr(), msg)
-		c.response(req, nil, errors.ParsingErr.Use(err))
+		c.sendC <- req.ErrorResponse(err)
 		return
 	}
 
 	if err := req.Valid(); err != nil {
 		log.Printf("[%s] Invalid request object: %s", c.conn.RemoteAddr(), err)
-		c.response(req, nil, errors.BadRequest.Use(err))
+		c.sendC <- req.ErrorResponse(err)
 		return
 	}
 
@@ -131,33 +129,35 @@ func (c *connection) handleTextMessage(msg []byte) {
 }
 
 func (c *connection) handleRequest(req jsonrpc.Request) {
-	log.Infof("handling JSON-RPC request:\n%s", req)
 	if req.IsNotification() {
 		c.handleNotification(req)
 		return
 	}
 
 	if fn, ok := c.methods[req.Method]; ok {
-		data, err := fn.call(req.Params)
-		if err != nil {
-			log.Warningf("[%s] RPC call %s(%s) error: %s", c.conn.RemoteAddr(), req.Method, req.Params, err)
+		if data, err := fn.call(context.WithValue(context.Background(), "request", c.request), req.Params); err != nil {
+			log.Printf("[%s] RPC call %s(%s) error: %s", c.conn.RemoteAddr(), req.Method, req.Params, err.Error())
+			c.sendC <- req.ErrorResponse(err)
+		} else {
+			c.sendC <- req.Response(data)
 		}
 
-		c.response(req, data, err)
-	} else {
-		log.Warningf("[%s] requested method %q doesn't exist", c.conn.RemoteAddr(), req.Method)
-		c.response(req, nil, errors.NotFound.Newf("method %q doesn't exist", req.Method))
-	}
-}
-
-func (c *connection) handleNotification(req jsonrpc.Request) {
-	var method string
-	if err := json.Unmarshal(req.Params, &method); err != nil {
-		log.Warningf("[%s] unable to decode method name: %s", c.conn.RemoteAddr(), err)
 		return
 	}
 
-	switch req.Method {
+	log.Printf("[%s] Requested method %q doesn't exist", c.conn.RemoteAddr(), req.Method)
+	c.sendC <- req.ErrorResponse(fmt.Errorf("method %q doesn't exist", req.Method))
+}
+
+func (c *connection) handleNotification(notice jsonrpc.Request) {
+	var method string
+	if err := json.Unmarshal(notice.Params, &method); err != nil {
+		log.Printf("[%s] Error decoding method name: %s", c.conn.RemoteAddr(), err)
+		log.Printf("[%s] Params: %s", c.conn.RemoteAddr(), notice.Params)
+		return
+	}
+
+	switch notice.Method {
 	case "subscribe":
 		c.subscribe(method)
 	case "unsubscribe":
@@ -177,13 +177,4 @@ func (c *connection) unsubscribe(method string) {
 	c.mutex.Lock()
 	delete(c.subscriptions, method)
 	c.mutex.Unlock()
-}
-
-func (c *connection) response(req jsonrpc.Request, data json.RawMessage, err error) {
-	if err != nil {
-		c.sendC <- req.Response(nil, errors.AsJSONRPC(err, c.trans))
-		return
-	}
-
-	c.sendC <- req.Response(data, nil)
 }

@@ -1,35 +1,36 @@
-import {$html} from "../index";
+import {$html} from '../index'
+import {Match} from 'navigo'
 
-export interface App {
-	render(selector: string): void;
+export interface Renderable {
+	render: (selector: string, match?: Match) => void
+	leave?: () => void
 }
 
 export default class Page {
 	constructor(
 		private readonly title: string,
-		private readonly app: App
-	) {}
+		private readonly content: Renderable
+	) {
+	}
 
-	public render(selector: string): void {
-		$html(selector,
-			`<section class="content-header">
-				<div class="container-fluid">
+	public render(selector: string, match: Match): void {
+		$html(selector, `
+			<div class="content-header">
+				<div class="container">
 					<div class="row mb-2">
-                    	<div class="col-sm-12">
-                        	<h1>${this.title}</h1>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="content mb-5">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12" id="content"></div>
-                    </div>
-                </div>
-            </section>`
-		);
+						<div class="col-sm-6">
+							<h1 class="m-0">${this.title}</h1>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="content">
+				<div class="container" id="content"></div>
+			</div>`)
+		this.content.render('#content', match)
+	}
 
-		this.app.render('#content');
+	public leave() {
+		this.content.leave?.()
 	}
 }

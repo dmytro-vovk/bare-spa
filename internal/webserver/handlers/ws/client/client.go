@@ -1,67 +1,98 @@
 package client
 
 import (
-	ut "github.com/go-playground/universal-translator"
-	log "github.com/sirupsen/logrus"
+	"log"
+	"net/http"
+	"reflect"
 	"sync"
 	"time"
+	"unicode"
 
+	"github.com/alexedwards/scs/v2"
 	"github.com/gorilla/websocket"
 )
 
 type Client struct {
-	methods     map[string]rpcHandler
-	connections map[string]*connection
-	mutex       sync.RWMutex
+	session *scs.SessionManager
+	methods map[string]*rpcHandler
+	users   map[string]map[string]*connection // userID/address
+	mutex   sync.RWMutex
 }
 
-func New() *Client {
+func New(session *scs.SessionManager) *Client {
 	return &Client{
-		methods:     map[string]rpcHandler{},
-		connections: map[string]*connection{},
+		session: session,
+		methods: map[string]*rpcHandler{},
+		users:   make(map[string]map[string]*connection),
 	}
 }
 
-// NS adds handlers to the namespace
-func (c *Client) NS(namespace string, handlers ...func(string, *Client)) *Client {
-	for _, f := range handlers {
-		f(namespace, c)
+func (c *Client) AddAPI(object any) *Client {
+	ot, ov, namespace := reflect.TypeOf(object), reflect.ValueOf(object), ""
+	if ot.Kind() == reflect.Pointer {
+		namespace = canonical(ot.Elem().Name())
+	} else {
+		namespace = canonical(ot.Name())
+	}
+
+	for i := 0; i < ot.NumMethod(); i++ {
+		m := ot.Method(i)
+		name := namespace + "." + canonical(m.Name)
+		c.methods[name] = parseMethod(m, &ov)
+		log.Printf("Added RPC handler: %s", name)
 	}
 
 	return c
 }
 
-// NSMethod add the handler to the namespace by name
-func NSMethod(name string, handler interface{}) func(string, *Client) {
-	return func(ns string, c *Client) {
-		c.methods[ns+"."+name] = parseHandler(handler)
-	}
-}
-
-// AddMethod add handler by name
-func (c *Client) AddMethod(name string, fn interface{}) *Client {
-	c.methods[name] = parseHandler(fn)
-	return c
-}
-
-func (c *Client) Notify(method string, params interface{}) {
-	if _, ok := params.(error); ok {
-		panic("can't broadcast an error")
-	}
-
+func (c *Client) NotifyUser(userID, method string, params any) {
 	c.mutex.Lock()
-	for addr := range c.connections {
-		go c.connections[addr].Notify(method, params)
+	if conns, ok := c.users[userID]; ok {
+		for i := range conns {
+			go conns[i].Notify(method, params)
+		}
 	}
 	c.mutex.Unlock()
 }
 
-// Run handles single connection
-func (c *Client) Run(conn *websocket.Conn, trans ut.Translator) {
+func (c *Client) Run(r *http.Request, conn *websocket.Conn) {
 	start, addr := time.Now(), conn.RemoteAddr().String()
+
 	log.Printf("[%s] Websocket client connected", addr)
-	c.connections[addr] = NewConnection(conn, c.methods, trans)
-	c.connections[addr].Run()
-	delete(c.connections, addr)
+
+	cn := NewConnection(r, conn, c.methods)
+
+	userID, ok := c.session.Get(r.Context(), "user_id").(string)
+
+	c.mutex.Lock()
+	if ok {
+		if uc, ok := c.users[userID]; ok {
+			uc[addr] = cn
+		} else {
+			c.users[userID] = map[string]*connection{addr: cn}
+		}
+	}
+	c.mutex.Unlock()
+
+	cn.Run()
+
+	c.mutex.Lock()
+	if ok {
+		if uc, ok := c.users[userID]; ok {
+			delete(uc, addr)
+
+			if len(uc) == 0 {
+				delete(c.users, userID)
+			}
+		}
+	}
+	c.mutex.Unlock()
+
 	log.Printf("[%s] Websocket client disconnected after %s", addr, time.Since(start))
+}
+
+func canonical(name string) string {
+	n := []rune(name)
+	n[0] = unicode.ToLower(n[0])
+	return string(n)
 }
