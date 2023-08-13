@@ -1,3 +1,5 @@
+/node_modules
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
@@ -15,6 +17,3 @@
 # vendor/
 
 /.idea
-/node_modules
-/node_modules/
-node_modules
