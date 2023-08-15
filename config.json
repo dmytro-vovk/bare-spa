@@ -1,6 +1,6 @@
 {
   "webserver": {
-    "domain": "localhost:8000",
+    "domain": "localhost:80",
     "tls": {
       "enabled": false
     }
