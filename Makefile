@@ -9,6 +9,9 @@ lint-front:
 build-front:
 	scripts/build-front.sh
 
+ci-build-front:
+	scripts/ci-build-front.sh
+
 lint-back:
 	@golangci-lint run
 

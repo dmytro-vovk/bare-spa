@@ -21,7 +21,7 @@ jobs:
         run: make lint-front
 
       - name: Build front-end
-        run: make build-front
+        run: make ci-build-front
 
       - name: Install Go
         uses: actions/setup-go@v4
