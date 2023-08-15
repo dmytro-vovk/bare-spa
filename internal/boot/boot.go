@@ -10,16 +10,16 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/guest"
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/app/user"
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/boot/config"
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver"
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/handlers/home"
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/handlers/ws"
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/handlers/ws/client"
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/router"
 	"github.com/alexedwards/scs/v2"
 	"github.com/alexedwards/scs/v2/memstore"
+	"github.com/dmytro-vovk/bare-spa/internal/app/guest"
+	"github.com/dmytro-vovk/bare-spa/internal/app/user"
+	"github.com/dmytro-vovk/bare-spa/internal/boot/config"
+	"github.com/dmytro-vovk/bare-spa/internal/webserver"
+	"github.com/dmytro-vovk/bare-spa/internal/webserver/handlers/home"
+	"github.com/dmytro-vovk/bare-spa/internal/webserver/handlers/ws"
+	"github.com/dmytro-vovk/bare-spa/internal/webserver/handlers/ws/client"
+	"github.com/dmytro-vovk/bare-spa/internal/webserver/router"
 )
 
 type boot struct {

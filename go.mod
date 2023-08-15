@@ -1,4 +1,4 @@
-module github.com/Sergii-Kirichok/DTekSpeachParser
+module github.com/dmytro-vovk/bare-spa
 
 go 1.20
 

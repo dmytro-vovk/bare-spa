@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/jsonrpc"
+	"github.com/dmytro-vovk/bare-spa/internal/jsonrpc"
 	"github.com/gorilla/websocket"
 )
 

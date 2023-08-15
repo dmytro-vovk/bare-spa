@@ -1,11 +1,11 @@
 {
-  "name": "DTekSpeachParser",
+  "name": "bare-spa",
   "version": "0.0.1",
-  "description": "Conversations parser",
+  "description": "Example of bare SPA",
   "main": "index.js",
-  "repository": "https://github.com/Sergii-Kirichok/DTekSpeachParser",
+  "repository": "https://github.com/dmytro-vovk/bare-spa",
   "author": "Dmytro Vovk",
-  "license": "private",
+  "license": "MIT",
   "scripts": {
     "lint": "eslint ./frontend --ext .ts",
     "lint-fix": "eslint --fix ./frontend --ext .ts",

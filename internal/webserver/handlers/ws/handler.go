@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/webserver/handlers/ws/client"
 	"github.com/alexedwards/scs/v2"
+	"github.com/dmytro-vovk/bare-spa/internal/webserver/handlers/ws/client"
 	"github.com/gorilla/websocket"
 )
 

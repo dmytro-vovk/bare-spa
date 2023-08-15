@@ -2,8 +2,9 @@ package user
 
 import (
 	"context"
-	"github.com/alexedwards/scs/v2"
 	"net/http"
+
+	"github.com/alexedwards/scs/v2"
 )
 
 type User struct {

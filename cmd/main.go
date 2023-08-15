@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Sergii-Kirichok/DTekSpeachParser/internal/boot"
+	"github.com/dmytro-vovk/bare-spa/internal/boot"
 )
 
 func main() {
