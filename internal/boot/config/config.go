@@ -9,12 +9,10 @@ import (
 
 type Config struct {
 	WebServer WebServer `json:"webserver"`
-	Database  Database  `json:"database"`
-	Merchant  Merchant  `json:"merchant"`
 }
 
 type WebServer struct {
-	Domain string `json:"domain"`
+	Domain string `json:"domain" env:"LISTEN"`
 	TLS    TLS    `json:"tls"`
 }
 
@@ -22,19 +20,6 @@ type TLS struct {
 	Enabled   bool     `json:"enabled"`
 	HostNames []string `json:"host_names"`
 	CertDir   string   `json:"cert_dir"`
-}
-
-type Database struct {
-	Host     string `env:"MYSQL_HOST"`
-	Name     string `env:"MYSQL_NAME"`
-	User     string `env:"MYSQL_USER"`
-	Password string `env:"MYSQL_PASS"`
-}
-
-type Merchant struct {
-	ID        int    `json:"id"`
-	Key       string `env:"MERCHANT_KEY"`
-	SystemKey string `env:"SYSTEM_KEY"`
 }
 
 func Load(fileName string) (*Config, error) {

@@ -20,7 +20,7 @@ build-back:
 
 assemble: build-front build-back
 
-run: lint-front build-front lint-back test-back
+run: build-front
 	@go run cmd/main.go
 
 all: lint-front build-front lint-back test-back build-back clean
