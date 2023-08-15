@@ -135,6 +135,7 @@ func (c *connection) handleRequest(req jsonrpc.Request) {
 	}
 
 	if fn, ok := c.methods[req.Method]; ok {
+		//nolint:staticcheck
 		if data, err := fn.call(context.WithValue(context.Background(), "request", c.request), req.Params); err != nil {
 			log.Printf("[%s] RPC call %s(%s) error: %s", c.conn.RemoteAddr(), req.Method, req.Params, err.Error())
 			c.sendC <- req.ErrorResponse(err)
