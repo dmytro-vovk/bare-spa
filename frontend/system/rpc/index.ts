@@ -1,5 +1,5 @@
 import SimpleRPC from 'simple-jsonrpc-js'
-import ReconnectingWebSocket from 'reconnecting-websocket'
+import ReconnectingWebSocket, { Message } from 'reconnecting-websocket'
 
 interface request {
 	id?: number
@@ -17,7 +17,7 @@ export default class RPC {
 	constructor(address: string) {
 		this.ws = new ReconnectingWebSocket(address)
 		this.rpc = new SimpleRPC()
-		this.rpc.toStream = message => {
+		this.rpc.toStream = (message: Message) => {
 			this.ws.send(message)
 		}
 		this.handlers = {}
@@ -63,7 +63,7 @@ export default class RPC {
 		this.rpc.notification(method, data)
 	}
 
-	public subscribe(method: string, handler: (data) => void): void {
+	public subscribe(method: string, handler: (data: never) => void): void {
 		if (method in this.handlers) {
 			this.handlers[method].push(handler)
 		} else {
